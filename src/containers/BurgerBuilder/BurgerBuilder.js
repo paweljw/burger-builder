@@ -14,21 +14,19 @@ const INGREDIENT_PRICES = {
   cheese: 1.0
 }
 
-const INITIAL_STATE = {
-  ingredients: null,
-  totalPrice: 4,
-  purchasable: false,
-  purchasing: false,
-  summaryLoading: false
-}
-
 class BurgerBuilder extends Component {
-  state = { ...INITIAL_STATE }
+  state = {
+    ingredients: null,
+    totalPrice: 4,
+    purchasable: false,
+    purchasing: false,
+    summaryLoading: false
+  }
 
   async componentDidMount() {
-    const ingredients = (await axios.get('/ingredients.json')).data
-    if (ingredients) {
-      this.setState({ ingredients })
+    const response = (await axios.get('/ingredients.json'))
+    if (response) {
+      this.setState({ ingredients: response.data })
     }
   }
 
@@ -40,7 +38,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = <Spinner />
 
-    if (this.ingredients && !this.state.summaryLoading && this.state.purchasing) {
+    if (this.state.ingredients && !this.state.summaryLoading && this.state.purchasing) {
       orderSummary = <OrderSummary
         loading={this.state.summaryLoading}
         ingredients={this.state.ingredients}
@@ -93,7 +91,8 @@ class BurgerBuilder extends Component {
       deliveryMethod: 'fastest'
     }).then((response) => {
       if (response && response.status === 200) {
-        this.setState({ ...INITIAL_STATE })
+        this.setState({ purchasing: false, summaryLoading: false })
+        this.resetIngredientCounts()
       } else {
         this.setState({ purchasing: false, summaryLoading: false })
       }
@@ -142,6 +141,14 @@ class BurgerBuilder extends Component {
         purchasable
       }
     })
+  }
+
+  resetIngredientCounts = () => {
+    const ingredients = { ...this.state.ingredients }
+    Object.keys(this.state.ingredients).forEach((key) =>
+      ingredients[key] = 0
+    )
+    this.setState({ ingredients })
   }
 }
 
