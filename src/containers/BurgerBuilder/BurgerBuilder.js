@@ -15,12 +15,7 @@ const INGREDIENT_PRICES = {
 }
 
 const INITIAL_STATE = {
-  ingredients: {
-    salad: 0,
-    bacon: 0,
-    cheese: 0,
-    meat: 0
-  },
+  ingredients: null,
   totalPrice: 4,
   purchasable: false,
   purchasing: false,
@@ -30,6 +25,13 @@ const INITIAL_STATE = {
 class BurgerBuilder extends Component {
   state = { ...INITIAL_STATE }
 
+  async componentDidMount() {
+    const ingredients = (await axios.get('/ingredients.json')).data
+    if (ingredients) {
+      this.setState({ ingredients })
+    }
+  }
+
   render() {
     const disabledInfo = { ...this.state.ingredients }
     for (let key in disabledInfo) {
@@ -38,7 +40,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = <Spinner />
 
-    if (!this.state.summaryLoading && this.state.purchasing) {
+    if (this.ingredients && !this.state.summaryLoading && this.state.purchasing) {
       orderSummary = <OrderSummary
         loading={this.state.summaryLoading}
         ingredients={this.state.ingredients}
@@ -54,15 +56,18 @@ class BurgerBuilder extends Component {
           <Modal dismiss={this.purchasingToggle}>
             {orderSummary}
           </Modal> : null}
-        <Burger ingredients={this.state.ingredients} />
-        <BuildControls
-          less={this.lessHandler}
-          more={this.moreHandler}
-          disabledInfo={disabledInfo}
-          price={this.state.totalPrice}
-          purchasable={this.state.purchasable}
-          purchase={this.purchasingToggle}
-        />
+        {this.state.ingredients ?
+          <>
+            <Burger ingredients={this.state.ingredients} />,
+            <BuildControls
+              less={this.lessHandler}
+              more={this.moreHandler}
+              disabledInfo={disabledInfo}
+              price={this.state.totalPrice}
+              purchasable={this.state.purchasable}
+              purchase={this.purchasingToggle}
+            />
+          </> : <Spinner />}
       </>
     )
   }
