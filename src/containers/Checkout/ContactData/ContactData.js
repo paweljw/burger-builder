@@ -98,7 +98,7 @@ class ContactData extends Component {
       },
     }).then((response) => {
       if (response && response.status === 200) {
-        this.props.history.push('/')
+        this.props.history.push('/order-complete')
       }
       this.setState({ loading: false })
     }).catch((err) => {
