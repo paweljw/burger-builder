@@ -1,19 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import Backdrop from '../Backdrop/Backdrop'
 import classes from './Modal.module.scss';
 
-class Modal extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
+const modal = (props) =>
+  <>
+    <Backdrop clicked={props.dismiss} show={true} />
+    <div className={classes.Modal}>{props.children}</div>
+  </>
 
-  }
-
-  render() {
-    return <>
-      <Backdrop clicked={this.props.purchaseToggle} show={true} />
-      <div className={classes.Modal}>{this.props.children}</div>
-    </>
-  }
-}
-
-export default Modal
+export default modal
