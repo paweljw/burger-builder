@@ -1,5 +1,6 @@
 import React from 'react'
 import BuildControl from './BuildControl/BuildControl';
+
 import classes from './BuildControls.module.scss';
 
 const controls = [
@@ -29,7 +30,7 @@ const buildControls = (props) => {
       className={classes.OrderButton}
       onClick={props.purchase}
     >Order now</button>
-  </div>
+  </div >
 }
 
 export default buildControls
