@@ -5,8 +5,7 @@ import Button from '../../../components/UI/Button/Button'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Input/Input'
 import axios from '../../../axios'
-import * as burgerActionCreators from '../../../store/actions/burgerBuilder'
-import * as orderActionCreators from '../../../store/actions/order'
+import * as actionCreators from '../../../store/actions'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 
 import classes from './ContactData.module.scss'
@@ -193,9 +192,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onResetIngredients: () => dispatch(burgerActionCreators.resetIngredients()),
-    onPurchaseBurger: orderData => dispatch(orderActionCreators.purchaseBurger(orderData)),
-    onPurchaseBurgerStart: () => dispatch(orderActionCreators.purchaseBurgerStart())
+    onResetIngredients: () => dispatch(actionCreators.resetIngredients()),
+    onPurchaseBurger: orderData => dispatch(actionCreators.purchaseBurger(orderData)),
+    onPurchaseBurgerStart: () => dispatch(actionCreators.purchaseBurgerStart())
   }
 }
 

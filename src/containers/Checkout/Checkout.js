@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary'
 import ContactData from '../../containers/Checkout/ContactData/ContactData';
-import * as orderActions from '../../store/actions/order'
+import * as actionCreators from '../../store/actions'
 
 class Checkout extends Component {
   componentDidMount() {
@@ -52,7 +52,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onPurchaseInit: dispatch(orderActions.purchaseInit())
+    onPurchaseInit: dispatch(actionCreators.purchaseInit())
   }
 }
 
