@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes'
 import { Object } from 'core-js';
+import { updateObject } from '../utility';
 
 const initialState = {
   ingredients: null,
@@ -18,11 +19,7 @@ const resetIngredients = state => {
   const ingredients = { ...state.ingredients }
   Object.keys(ingredients).forEach(key => ingredients[key] = 0)
 
-  return {
-    ...state,
-    ingredients,
-    totalPrice: initialState.totalPrice
-  }
+  return updateObject(state, { ingredients, totalPrice: initialState.totalPrice })
 }
 
 const adjustIngredientCount = (state, ingredient, by) => {

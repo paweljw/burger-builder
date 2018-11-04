@@ -40,3 +40,34 @@ export const purchaseInit = () => {
     type: actionTypes.PURCHASE_INIT
   }
 }
+
+export const setOrders = (orders) => {
+  return {
+    type: actionTypes.SET_ORDERS,
+    orders
+  }
+}
+
+export const fetchOrdersStart = () => {
+  return {
+    type: actionTypes.FETCH_ORDERS_START
+  }
+}
+
+export const initOrders = () => {
+  return dispatch => {
+    dispatch(fetchOrdersStart())
+    let orders = []
+
+    axios.get('https://burger-builder-9796a.firebaseio.com/orders.json')
+      .then(response => {
+        if (response && response.status === 200) {
+          orders = Object.keys(response.data).map(key => {
+            return { ...response.data[key], id: key }
+          })
+
+          dispatch(setOrders(orders))
+        }
+      })
+  }
+}
