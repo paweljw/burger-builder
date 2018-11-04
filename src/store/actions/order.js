@@ -27,10 +27,16 @@ export const purchaseBurger = (orderData) => {
     axios.post('/orders.json', orderData)
       .then(response => {
         if (response && response.status === 200) {
-          dispatch(purchaseBurgerSuccess(response.data.id, orderData))
+          dispatch(purchaseBurgerSuccess(response.data.name, orderData))
         }
       }).catch(err => {
         dispatch(purchaseBurgerFail(err))
       })
+  }
+}
+
+export const purchaseInit = () => {
+  return {
+    type: actionTypes.PURCHASE_INIT
   }
 }

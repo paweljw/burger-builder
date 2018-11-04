@@ -102,7 +102,6 @@ class ContactData extends Component {
     this.props.onPurchaseBurgerStart()
     this.props.onPurchaseBurger(orderData)
     this.props.onResetIngredients()
-    this.props.history.push('/order-complete')
   }
 
   checkValidity = (key, value) => {
@@ -196,7 +195,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onResetIngredients: () => dispatch(burgerActionCreators.resetIngredients()),
     onPurchaseBurger: orderData => dispatch(orderActionCreators.purchaseBurger(orderData)),
-    onPurchaseBurgerStart: orderData => dispatch(orderActionCreators.purchaseBurgerStart())
+    onPurchaseBurgerStart: () => dispatch(orderActionCreators.purchaseBurgerStart())
   }
 }
 
