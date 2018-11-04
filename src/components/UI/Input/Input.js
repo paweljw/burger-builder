@@ -2,7 +2,6 @@ import React from 'react'
 import classes from './Input.module.scss';
 
 const input = (props) => {
-  console.log(classes)
   const required = <abbr title="required">*</abbr>
 
   return <div className={classes.Input}>
