@@ -5,7 +5,7 @@ import Button from '../../../components/UI/Button/Button'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Input/Input'
 import axios from '../../../axios'
-import * as actionTypes from '../../../store/actions'
+import * as actionCreators from '../../../store/actions/burgerBuilder'
 
 import classes from './ContactData.module.scss'
 
@@ -197,7 +197,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onResetIngredients: () => dispatch({ type: actionTypes.RESET_INGREDIENTS })
+    onResetIngredients: () => dispatch(actionCreators.resetIngredients())
   }
 }
 
