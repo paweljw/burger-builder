@@ -5,6 +5,7 @@ import Button from '../../../components/UI/Button/Button'
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Input/Input'
 import axios from '../../../axios'
+import * as actionTypes from '../../../store/actions'
 
 import classes from './ContactData.module.scss'
 
@@ -99,6 +100,7 @@ class ContactData extends Component {
       },
     }).then((response) => {
       if (response && response.status === 200) {
+        this.props.onResetIngredients()
         this.props.history.push('/order-complete')
       }
       this.setState({ loading: false })
@@ -193,4 +195,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(ContactData)
+const mapDispatchToProps = dispatch => {
+  return {
+    onResetIngredients: () => dispatch({ type: actionTypes.RESET_INGREDIENTS })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData)

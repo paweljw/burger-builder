@@ -25,6 +25,8 @@ const reducer = (state = initialState, action) => {
     totalPrice = state.totalPrice
 
   switch (action.type) {
+    case actionTypes.RESET_INGREDIENTS:
+      return { ...initialState }
     case actionTypes.ADD_INGREDIENT:
       count += 1
       ingredients[action.ingredient] = count

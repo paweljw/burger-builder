@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary'
 import ContactData from '../../containers/Checkout/ContactData/ContactData';
-import * as actionTypes from '../../store/actions'
 
 class Checkout extends Component {
   render() {
@@ -26,7 +25,6 @@ class Checkout extends Component {
   }
 
   purchaseContinuedHandler = () => {
-    this.props.onResetIngredients()
     this.props.history.push(this.props.match.url + '/contact-data')
   }
 }
@@ -38,12 +36,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onResetIngredients: () => {
-      dispatch({ type: actionTypes.RESET_INGREDIENTS })
-    },
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
+export default connect(mapStateToProps)(Checkout)
