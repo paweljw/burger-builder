@@ -20,7 +20,8 @@ const resetIngredients = state => {
 
   return {
     ...state,
-    ingredients
+    ingredients,
+    totalPrice: initialState.totalPrice
   }
 }
 

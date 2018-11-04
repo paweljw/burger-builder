@@ -36,10 +36,7 @@ export const initIngredients = () => {
       .then(response => {
         if (response && response.status === 200) {
           ingredients = response.data
-          dispatch({
-            type: actionTypes.SET_INGREDIENTS,
-            ingredients
-          })
+          dispatch(setIngredients(ingredients))
         }
       })
   }
