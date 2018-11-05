@@ -22,9 +22,9 @@ export const purchaseBurgerStart = () => {
   }
 }
 
-export const purchaseBurger = (orderData) => {
+export const purchaseBurger = (orderData, token) => {
   return dispatch => {
-    axios.post('/orders.json', orderData)
+    axios.post('/orders.json?auth=' + token, orderData)
       .then(response => {
         if (response && response.status === 200) {
           dispatch(purchaseBurgerSuccess(response.data.name, orderData))
@@ -54,15 +54,15 @@ export const fetchOrdersStart = () => {
   }
 }
 
-export const initOrders = () => {
+export const initOrders = (token) => {
   return dispatch => {
     dispatch(fetchOrdersStart())
     let orders = []
 
-    axios.get('https://burger-builder-9796a.firebaseio.com/orders.json')
+    axios.get('https://burger-builder-9796a.firebaseio.com/orders.json?auth=' + token)
       .then(response => {
         if (response && response.status === 200) {
-          orders = Object.keys(response.data).map(key => {
+          orders = Object.keys(response.data || {}).map(key => {
             return { ...response.data[key], id: key }
           })
 

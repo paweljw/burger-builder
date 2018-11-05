@@ -1,12 +1,28 @@
-import React from 'react'
+import React, { Component } from 'react'
 import classes from './NavigationItems.module.scss';
 import NavigationItem from './NavigationItem/NavigationItem'
+import { connect } from 'react-redux'
 
-const navigationItems = (props) =>
-  <ul className={classes.NavigationItems}>
-    <NavigationItem link="/" exact>Burger Builder</NavigationItem>
-    <NavigationItem link="/auth">Login</NavigationItem>
-    <NavigationItem link="/my-orders">My orders</NavigationItem>
-  </ul>
+class NavigationItems extends Component {
+  render() {
+    const authenticated = <>
+      <NavigationItem link="/my-orders">My orders</NavigationItem>
+      <NavigationItem link="/logout">Logout</NavigationItem>
+    </>
+    const unauthenticated = <NavigationItem link="/auth">Login</NavigationItem>
 
-export default navigationItems
+    return <ul className={classes.NavigationItems}>
+      <NavigationItem link="/" exact>Burger Builder</NavigationItem>
+      {authenticated}
+      {unauthenticated}
+    </ul>
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    loggedIn: state.auth.userId
+  }
+}
+
+export default connect(mapStateToProps)(NavigationItems)

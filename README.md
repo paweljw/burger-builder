@@ -4,7 +4,8 @@ A burger builder app built during https://www.udemy.com/react-the-complete-guide
 
 ## Prerequisites
 
-Get a Firebase Realtime Database and put your endpoint URL into .env.development.local under `REACT_APP_API_BASE`.
+Get a Firebase Realtime Database and put your endpoint URL into .env.development.local under `REACT_APP_API_BASE`. Set up authentication by e-mail / password and place your API key under
+`REACT_APP_API_KEY`.
 
 Your database should have an `ingredients` key with data:
 
