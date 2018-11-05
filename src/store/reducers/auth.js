@@ -22,12 +22,14 @@ const reducer = (state = initialState, action) => {
         error: action.error.response.data.error.message
       }
     case actionTypes.AUTH_SUCCESS:
+      const userId = action.authData.localId
+      const token = action.authData.idToken
       return {
         ...state,
         loading: false,
         error: null,
-        userId: action.authData.localId,
-        token: action.authData.idToken
+        userId,
+        token
       }
     case actionTypes.LOGOUT:
       return {

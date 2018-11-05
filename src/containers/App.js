@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { Route, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import Layout from '../hoc/Layout/Layout'
 import BurgerBuilder from './BurgerBuilder/BurgerBuilder';
@@ -9,27 +9,48 @@ import Orders from './Orders/Orders'
 import Auth from './Auth/Auth'
 import Logout from './Auth/Logout/Logout'
 import Complete from './Checkout/Complete/Complete'
-import store from '../store/store'
+import * as actions from '../store/actions'
+
 
 class App extends Component {
+  componentDidMount() {
+    this.props.onAuthCheckState()
+  }
+
   render() {
     return (
       <div>
-        <Provider store={store}>
-          <BrowserRouter>
-            <Layout>
-              <Route path="/" exact component={BurgerBuilder} />
+        <Layout isAuth={this.props.isAuth}>
+          <Route path="/" exact component={BurgerBuilder} />
+          {this.props.isAuth ?
+            <>
               <Route path="/checkout" component={Checkout} />
               <Route path="/my-orders" component={Orders} />
               <Route path="/order-complete" component={Complete} />
-              <Route path="/auth" component={Auth} />
-              <Route path="/logout" component={Logout} />
-            </Layout>
-          </BrowserRouter>
-        </Provider>
+            </>
+            : null}
+          <Route path="/auth" component={Auth} />
+          <Route path="/logout" component={Logout} />
+        </Layout>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.token !== null
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuthCheckState: () => dispatch(actions.authCheckState())
+  }
+}
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(
+    App
+  )
+)

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 
 import classes from './Layout.module.scss';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
@@ -41,10 +39,4 @@ class Layout extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuth: state.auth.token !== null
-  }
-}
-
-export default withRouter(connect(mapStateToProps)(Layout));
+export default Layout

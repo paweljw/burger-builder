@@ -99,11 +99,12 @@ class ContactData extends Component {
           country: this.state.orderForm.country.value
         },
         email: this.state.orderForm.email.value
-      }
+      },
+      userId: this.props.userId
     }
 
     this.props.onPurchaseBurgerStart()
-    this.props.onPurchaseBurger(orderData, this.props.token)
+    this.props.onPurchaseBurger(orderData, this.props.token, this.props.userId)
     this.props.onResetIngredients()
   }
 
@@ -145,7 +146,8 @@ const mapStateToProps = state => {
     ings: state.burger.ingredients,
     price: state.burger.totalPrice,
     orderLoading: state.order.loading,
-    token: state.auth.token
+    token: state.auth.token,
+    userId: state.auth.userId
   }
 }
 
