@@ -56,6 +56,7 @@ class BurgerBuilder extends Component {
               price={this.props.price}
               purchasable={this.isPurchasable()}
               purchase={this.purchasingToggle}
+              isAuth={this.props.isAuth}
             />
           </> : <Spinner />}
       </>
@@ -63,7 +64,11 @@ class BurgerBuilder extends Component {
   }
 
   purchasingToggle = () => {
-    this.setState((prevState) => { return { purchasing: !prevState.purchasing } })
+    if (this.props.isAuth) {
+      this.setState((prevState) => { return { purchasing: !prevState.purchasing } })
+    } else {
+      this.props.history.push('/auth?continue=/checkout')
+    }
   }
 
   puchaseHandler = () => {
@@ -78,7 +83,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.burger.ingredients,
-    price: state.burger.totalPrice
+    price: state.burger.totalPrice,
+    isAuth: state.auth.token !== null
   }
 }
 

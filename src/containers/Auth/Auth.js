@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router'
+import { Redirect, withRouter } from 'react-router'
 
 import Inputs from '../../components/UI/Inputs/Inputs'
 import Button from '../../components/UI/Button/Button'
@@ -74,9 +74,14 @@ class Auth extends Component {
     })
   }
 
+  cont = () => {
+    const params = new URLSearchParams(this.props.location.search)
+    return (params.get('continue') || "/")
+  }
+
   render() {
     if (this.props.userId) {
-      return <Redirect to="/" />
+      return <Redirect to={this.cont()} />
     }
 
     let form = <form>
@@ -118,6 +123,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(
   withFormValidator(Auth)
-)
+))
