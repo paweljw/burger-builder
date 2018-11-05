@@ -21,5 +21,6 @@ export {
   authStart,
   authSuccess,
   authFail,
-  auth
+  auth,
+  logout
 } from './auth'
