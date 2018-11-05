@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 
 import Button from '../../../components/UI/Button/Button'
 import Spinner from '../../../components/UI/Spinner/Spinner'
-import Input from '../../../components/UI/Input/Input'
+import Inputs from '../../../components/UI/Inputs/Inputs'
 import axios from '../../../axios'
 import * as actionCreators from '../../../store/actions'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
+import withFormValidator from '../../../hoc/withFormValidator/withFormValidator'
 
 import classes from './ContactData.module.scss'
 
@@ -80,7 +81,10 @@ class ContactData extends Component {
 
   orderHandler = (event) => {
     event.preventDefault()
-    if (!this.validateForm()) {
+    const [valid, form] = this.props.validateForm(this.state.orderForm)
+
+    if (!valid) {
+      this.setState({ orderForm: form })
       return
     }
 
@@ -103,70 +107,24 @@ class ContactData extends Component {
     this.props.onResetIngredients()
   }
 
-  checkValidity = (key, value) => {
-    const orderForm = { ...this.state.orderForm }
-    const orderInput = { ...orderForm[key] }
-
-    if (orderInput.validation.required && value.trim() === '') {
-      return false
-    }
-
-    if (orderInput.validation.zipCode && !value.match(/^\d{5}$/)) {
-      return false
-    }
-
-    if (orderInput.validation.email && !value.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
-      return false
-    }
-
-    return true
-  }
-
-  validateForm = () => {
-    let valid = true
-    const orderForm = { ...this.state.orderForm }
-
-    Object.keys(this.state.orderForm).forEach(key => {
-      const orderInput = { ...orderForm[key] }
-      const value = orderInput.value
-      const validity = this.checkValidity(key, value)
-      if (!validity) {
-        valid = false
-      }
-      orderInput.valid = validity
-      orderForm[key] = orderInput
-    })
-
-    this.setState({ orderForm })
-    return valid
-  }
-
   updateValue = (key, event) => {
     // Gotcha - spread shallow-copies
     const orderForm = { ...this.state.orderForm }
     const orderInput = { ...orderForm[key] }
     const value = event.target.value
     orderInput.value = value
-    orderInput.valid = this.checkValidity(key, value)
+    orderInput.valid = this.props.checkValidity(orderForm, key, value)
     orderForm[key] = orderInput
 
     this.setState({ orderForm })
   }
 
   render() {
-    const inputs = Object.keys(this.state.orderForm).map(key =>
-      <Input
-        key={key}
-        name={key}
-        elementConfig={{ ...this.state.orderForm[key].elementConfig }}
-        onChange={this.updateValue.bind(this, key)}
-        valid={this.state.orderForm[key].valid}
-        validation={this.state.orderForm[key].validation || {}}
-      />
-    )
     let form = (
       <form>
-        {inputs}
+        <Inputs
+          onChange={this.updateValue}
+          form={this.state.orderForm} />
         <Button type="Success" clicked={this.orderHandler}>ORDER</Button>
       </form>
     );
@@ -198,4 +156,8 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios))
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withFormValidator(
+    withErrorHandler(ContactData, axios)
+  )
+)
