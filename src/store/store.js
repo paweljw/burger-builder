@@ -6,7 +6,11 @@ import burgerReducer from './reducers/burgerBuilder'
 import orderReducer from './reducers/order'
 import authReducer from './reducers/auth'
 
-import { watchAuth, watchBurger } from './sagas'
+import {
+  watchAuth,
+  watchBurger,
+  watchOrder
+} from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -30,5 +34,6 @@ const store = createStore(rootReducer, middleware)
 
 sagaMiddleware.run(watchAuth)
 sagaMiddleware.run(watchBurger)
+sagaMiddleware.run(watchOrder)
 
 export default store

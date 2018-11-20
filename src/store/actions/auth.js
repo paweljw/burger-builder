@@ -31,19 +31,19 @@ export const auth = (email, password, signup) => {
 
 export const logout = () => {
   return {
-    type: actionTypes.INITIATE_LOGOUT
+    type: actionTypes.AUTH_INITIATE_LOGOUT
   }
 }
 
 export const completeLogout = () => {
   return {
-    type: actionTypes.LOGOUT
+    type: actionTypes.AUTH_LOGOUT
   }
 }
 
 export const checkAuthTimeout = (expirationTime) => {
   return {
-    type: actionTypes.EXPIRE_TOKEN,
+    type: actionTypes.AUTH_EXPIRE_TOKEN,
     expirationTime
   }
 }

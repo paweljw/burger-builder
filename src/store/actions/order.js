@@ -23,34 +23,29 @@ export const purchaseBurgerStart = () => {
 }
 
 export const purchaseBurger = (orderData, token) => {
-  return dispatch => {
-    axios.post('/orders.json?auth=' + token, orderData)
-      .then(response => {
-        if (response && response.status === 200) {
-          dispatch(purchaseBurgerSuccess(response.data.name, orderData))
-        }
-      }).catch(err => {
-        dispatch(purchaseBurgerFail(err))
-      })
+  return {
+    type: actionTypes.PURCHASE_BURGER_INIT,
+    orderData,
+    token
   }
 }
 
 export const purchaseInit = () => {
   return {
-    type: actionTypes.PURCHASE_INIT
+    type: actionTypes.PURCHASE_BURGER_COMMIT
   }
 }
 
 export const setOrders = (orders) => {
   return {
-    type: actionTypes.SET_ORDERS,
+    type: actionTypes.ORDERS_SET,
     orders
   }
 }
 
 export const fetchOrdersStart = () => {
   return {
-    type: actionTypes.FETCH_ORDERS_START
+    type: actionTypes.ORDERS_FETCH_START
   }
 }
 

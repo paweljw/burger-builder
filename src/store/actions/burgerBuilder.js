@@ -2,33 +2,33 @@ import * as actionTypes from './actionTypes'
 
 export const addIngredient = (ing) => {
   return {
-    type: actionTypes.ADD_INGREDIENT,
+    type: actionTypes.INGREDIENTS_ADD,
     ingredient: ing
   }
 }
 
 export const removeIngredient = (ing) => {
   return {
-    type: actionTypes.REMOVE_INGREDIENT,
+    type: actionTypes.INGREDIENTS_REMOVE,
     ingredient: ing
   }
 }
 
 export const resetIngredients = () => {
   return {
-    type: actionTypes.RESET_INGREDIENTS
+    type: actionTypes.INGREDIENTS_RESET
   }
 }
 
 export const setIngredients = (ingredients) => {
   return {
-    type: actionTypes.SET_INGREDIENTS,
+    type: actionTypes.INGREDIENTS_SET,
     ingredients
   }
 }
 
 export const initIngredients = () => {
   return {
-    type: actionTypes.INIT_FETCH_INGREDIENTS
+    type: actionTypes.INGREDIENTS_FETCH
   }
 }

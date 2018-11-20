@@ -1,5 +1,4 @@
 import * as actionTypes from '../actions/actionTypes'
-import { Object } from 'core-js';
 import { updateObject } from '../utility';
 
 const initialState = {
@@ -42,14 +41,14 @@ const adjustIngredientCount = (state, ingredient, by) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_INGREDIENTS:
+    case actionTypes.INGREDIENTS_SET:
       return {
         ...state,
         ingredients: action.ingredients
       }
-    case actionTypes.RESET_INGREDIENTS: return resetIngredients(state)
-    case actionTypes.ADD_INGREDIENT: return adjustIngredientCount(state, action.ingredient, 1)
-    case actionTypes.REMOVE_INGREDIENT: return adjustIngredientCount(state, action.ingredient, -1)
+    case actionTypes.INGREDIENTS_RESET: return resetIngredients(state)
+    case actionTypes.INGREDIENTS_ADD: return adjustIngredientCount(state, action.ingredient, 1)
+    case actionTypes.INGREDIENTS_REMOVE: return adjustIngredientCount(state, action.ingredient, -1)
     default: return state
   }
 
