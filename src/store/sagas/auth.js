@@ -1,13 +1,13 @@
-import { put } from 'redux-saga/effects'
+import { put, call } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import axios from 'axios'
 
 import * as actionCreators from '../actions'
 
 export function* logoutSaga(action) {
-  yield localStorage.removeItem('token')
-  yield localStorage.removeItem('userId')
-  yield localStorage.removeItem('expirationDate')
+  yield call([localStorage, 'removeItem'], ['token'])
+  yield call([localStorage, 'removeItem'], ['userId'])
+  yield call([localStorage, 'removeItem'], ['expirationDate'])
   yield put(actionCreators.completeLogout())
 }
 
@@ -24,12 +24,13 @@ export function* authUserSaga({ email, password, signup }) {
   const url = signup ? signupUrl : signinUrl
 
   try {
-    const response = yield axios.post(url, { email, password, returnSecureToken: true })
+    const response = yield call([axios, 'post'], url, { email, password, returnSecureToken: true })
 
     if (response && response.status === 200) {
-      yield localStorage.setItem('token', response.data.idToken)
-      yield localStorage.setItem('userId', response.data.localId)
-      yield localStorage.setItem('expirationDate',
+      yield call([localStorage, 'setItem'], 'token', response.data.idToken)
+      yield call([localStorage, 'setItem'], 'userId', response.data.localId)
+      yield call([localStorage, 'setItem'],
+        'expirationDate',
         new Date(new Date().getTime() + (response.data.expiresIn * 1000))
       )
 
@@ -42,17 +43,18 @@ export function* authUserSaga({ email, password, signup }) {
 }
 
 export function* authCheckStateSaga() {
-  const token = yield localStorage.getItem('token')
+  const token = yield call([localStorage, 'getItem'], 'token')
 
   if (!token) {
     yield put(actionCreators.logout())
   } else {
-    const expirationDate = new Date(localStorage.getItem('expirationDate'))
+    const storedExpiry = yield call([localStorage, 'getItem'], 'expirationDate')
+    const expirationDate = new Date(storedExpiry)
 
     if (expirationDate < new Date()) {
       yield put(actionCreators.logout())
     } else {
-      const userId = yield localStorage.getItem('userId')
+      const userId = yield call([localStorage, 'getItem'], 'userId')
 
       yield put(
         actionCreators.authSuccess({
