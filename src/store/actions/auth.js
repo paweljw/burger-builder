@@ -48,11 +48,8 @@ export const auth = (email, password, signup) => {
 }
 
 export const logout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('userId')
-  localStorage.removeItem('expirationDate')
   return {
-    type: actionTypes.LOGOUT
+    type: actionTypes.INITIATE_LOGOUT
   }
 }
 
