@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes'
-import axios from 'axios'
 
 export const authStart = () => {
   return {
@@ -22,28 +21,11 @@ export const authFail = (error) => {
 }
 
 export const auth = (email, password, signup) => {
-  const signupUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' + process.env.REACT_APP_API_KEY
-  const signinUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' + process.env.REACT_APP_API_KEY
-
-  return dispatch => {
-    dispatch(authStart())
-    const url = signup ? signupUrl : signinUrl
-
-    axios.post(url, { email, password, returnSecureToken: true })
-      .then(response => {
-        if (response && response.status === 200) {
-          localStorage.setItem('token', response.data.idToken)
-          localStorage.setItem('userId', response.data.localId)
-          localStorage.setItem('expirationDate',
-            new Date(new Date().getTime() + (response.data.expiresIn * 1000))
-          )
-          dispatch(authSuccess(response.data))
-          dispatch(checkAuthTimeout(response.data.expiresIn))
-        }
-      })
-      .catch(err => {
-        dispatch(authFail(err))
-      })
+  return {
+    type: actionTypes.AUTH_INITIATE,
+    email,
+    password,
+    signup
   }
 }
 

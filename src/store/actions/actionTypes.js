@@ -11,9 +11,12 @@ export const PURCHASE_INIT = 'PURCHASE_INIT'
 export const FETCH_ORDERS_START = 'FETCH_ORDERS_START'
 export const SET_ORDERS = 'SET_ORDERS'
 
+export const AUTH_INITIATE = 'AUTH_INITIATE'
 export const AUTH_START = 'AUTH_START'
 export const AUTH_SUCCESS = 'AUTH_SUCCESS'
 export const AUTH_FAIL = 'AUTH_FAIL'
+
 export const LOGOUT = 'LOGOUT'
 export const INITIATE_LOGOUT = 'INITIATE_LOGOUT'
+
 export const EXPIRE_TOKEN = 'EXPIRE_TOKEN'
