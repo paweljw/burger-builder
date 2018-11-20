@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes'
-import axios from '../../axios'
 
 export const addIngredient = (ing) => {
   return {
@@ -29,15 +28,7 @@ export const setIngredients = (ingredients) => {
 }
 
 export const initIngredients = () => {
-  return dispatch => {
-    let ingredients = {}
-
-    axios.get('https://burger-builder-9796a.firebaseio.com/ingredients.json')
-      .then(response => {
-        if (response && response.status === 200) {
-          ingredients = response.data
-          dispatch(setIngredients(ingredients))
-        }
-      })
+  return {
+    type: actionTypes.INIT_FETCH_INGREDIENTS
   }
 }
