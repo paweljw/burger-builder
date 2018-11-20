@@ -53,11 +53,16 @@ export const logout = () => {
   }
 }
 
+export const completeLogout = () => {
+  return {
+    type: actionTypes.LOGOUT
+  }
+}
+
 export const checkAuthTimeout = (expirationTime) => {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(logout())
-    }, expirationTime * 1000)
+  return {
+    type: actionTypes.EXPIRE_TOKEN,
+    expirationTime
   }
 }
 
