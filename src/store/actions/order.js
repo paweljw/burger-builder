@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes'
-import axios from '../../axios'
 
 export const purchaseBurgerSuccess = (id, orderData) => {
   return {
@@ -50,21 +49,9 @@ export const fetchOrdersStart = () => {
 }
 
 export const initOrders = (token, userId) => {
-  return dispatch => {
-    dispatch(fetchOrdersStart())
-    let orders = []
-
-    const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"'
-
-    axios.get('/orders.json' + queryParams)
-      .then(response => {
-        if (response && response.status === 200) {
-          orders = Object.keys(response.data || {}).map(key => {
-            return { ...response.data[key], id: key }
-          })
-
-          dispatch(setOrders(orders))
-        }
-      })
+  return {
+    type: actionTypes.ORDERS_FETCH,
+    token,
+    userId
   }
 }
